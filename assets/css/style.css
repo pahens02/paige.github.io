@@ -785,6 +785,11 @@ main {
   margin-left: 45px;
 }
 
+.timeline-text li {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
 .timeline-item { position: relative; }
 
 .timeline-item:not(:last-child) { margin-bottom: 20px; }
