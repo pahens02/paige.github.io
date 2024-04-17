@@ -16,38 +16,51 @@ sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); }
 
 
 
-// testimonials variables
-const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
+// Common modal variables
 const modalContainer = document.querySelector("[data-modal-container]");
 const modalCloseBtn = document.querySelector("[data-modal-close-btn]");
 const overlay = document.querySelector("[data-overlay]");
 
-// modal variables (without the avatar image)
+// Modal content variables
 const modalTitle = document.querySelector("[data-modal-title]");
 const modalText = document.querySelector("[data-modal-text]");
 
-// modal toggle function
-const testimonialsModalFunc = function () {
+// Testimonials variables
+const testimonialsItems = document.querySelectorAll("[data-testimonials-item]");
+
+// Service variables
+const serviceItems = document.querySelectorAll("[data-service-item]");
+
+// Function to toggle modal visibility
+const toggleModal = function () {
   modalContainer.classList.toggle("active");
   overlay.classList.toggle("active");
 }
 
-// add click event to all testimonials items
-for (let i = 0; i < testimonialsItem.length; i++) {
-  testimonialsItem[i].addEventListener("click", function () {
-    modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
-    modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
-
-    // Toggle modal visibility
-    testimonialsModalFunc();
-  });
+// Function to set modal content and show
+const showModal = function (item, titleData, textData) {
+  modalTitle.innerHTML = item.querySelector(titleData).innerHTML;
+  modalText.innerHTML = item.querySelector(textData).innerHTML;
+  toggleModal();
 }
 
-// add click event to modal close button and overlay to close the modal
-modalCloseBtn.addEventListener("click", testimonialsModalFunc);
-overlay.addEventListener("click", testimonialsModalFunc);
+// Add click events to testimonials items
+testimonialsItems.forEach(item => {
+  item.addEventListener("click", function () {
+    showModal(this, "[data-testimonials-title]", "[data-testimonials-text]");
+  });
+});
 
+// Add click events to service items
+serviceItems.forEach(item => {
+  item.addEventListener("click", function () {
+    showModal(this, "[data-service-title]", "[data-service-text]");
+  });
+});
 
+// Add click event to modal close button and overlay to close the modal
+modalCloseBtn.addEventListener("click", toggleModal);
+overlay.addEventListener("click", toggleModal);
 
 
 // custom select variables
