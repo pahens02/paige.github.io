@@ -669,6 +669,10 @@ main {
   opacity: 0;
   transition: var(--transition-1);
   z-index: 2;
+  width: 90%; /* Adjust based on your design preference */
+  max-width: 600px; /* Cap the size to prevent it from being too large */
+  margin: auto; /* Center the modal */
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 .modal-container.active .testimonials-modal {
@@ -688,7 +692,16 @@ main {
   opacity: 0;
   transition: var(--transition-1);
   z-index: 2;
+  width: 90%;
+  max-width: 800px; /* Increase max width */
+  margin: auto; /* Center the modal */
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
+
+.service-item {
+  cursor: pointer;
+}
+
 
 .modal-container.active .service-modal {
   transform: scale(1);
