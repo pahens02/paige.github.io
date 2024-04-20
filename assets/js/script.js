@@ -118,8 +118,6 @@ const filterBtn = document.querySelectorAll("[data-filter-btn]");
 
 select.addEventListener("click", function () { elementToggleFunc(this); });
 
-let selectedValue = "powerbi";
-
 // add event in all select items
 for (let i = 0; i < selectItems.length; i++) {
   selectItems[i].addEventListener("click", function () {
@@ -138,11 +136,15 @@ const filterItems = document.querySelectorAll("[data-filter-item]");
 const filterFunc = function (selectedValue) {
 
   for (let i = 0; i < filterItems.length; i++) {
-    if (item.dataset.category === selectedValue) {
-      item.classList.add("active");
+
+    if (selectedValue === "all") {
+      filterItems[i].classList.add("active");
+    } else if (selectedValue === filterItems[i].dataset.category) {
+      filterItems[i].classList.add("active");
     } else {
-      item.classList.remove("active");
+      filterItems[i].classList.remove("active");
     }
+
   }
 
 }
