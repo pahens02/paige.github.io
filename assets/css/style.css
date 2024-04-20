@@ -1015,12 +1015,17 @@ main {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(var(--scale));
-  font-size: 20px;
+  font-size: 10px;
   padding: 18px;
   border-radius: 12px;
   opacity: 0;
   z-index: 1;
   transition: var(--transition-1);
+}
+
+ion-icon.md.hydrated {
+  text-align: center;
+  font-size: 20px;
 }
 
 .project-item > a:hover .project-item-icon-box {
