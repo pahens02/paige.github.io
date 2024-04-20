@@ -65,7 +65,27 @@ document.addEventListener("DOMContentLoaded", function() {
       Work Experience: Web Developer<br />
       Context: Created web analytics dashboards</p>
     `,
-    // Add more keys and content as needed
+    "software-dev": `
+      <p>Relevant Experience:<br />
+      Course Experience: Analytics Programming, Systems Development<br />
+      Taught By: Andrew Wright, James Chrisman<br />
+      Work Experience: Research Assistant, Student Tutor,Big Data Intern<br />
+      Context: Developed python scripts for machine learning projects, tutored other students in python and programming concepts, developing bash and python scripts for ETL pipelines</p>
+    `,
+    "database-manage": `
+      <p>Relevant Experience:<br />
+      Course Experience: Systems Analysis and Design, Systems Development, Information Security<br />
+      Taught By: Zara Hatami, James Chrisman, Andrew Wright<br />
+      Work Experience: Big Data Intern<br />
+      Context: Designing and implementing cataloging platforms for company databases</p>
+    `,
+    "data-arch": `
+      <p>Relevant Experience:<br />
+      Course Experience: Systems Analysis and Design, Systems Development<br />
+      Taught By: Zara Hatami, James Chrisman<br />
+      Work Experience: Big Data Intern<br />
+      Context: Designing and implementing cataloging platforms for company databases, implementing Airflow for ETL management</p>
+    `,
   };
 
   serviceItems.forEach(item => {
@@ -90,46 +110,54 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+document.addEventListener("DOMContentLoaded", function() {
+  const select = document.querySelector("[data-select]");
+  const selectItems = document.querySelectorAll("[data-select-item]");
+  const selectValue = document.querySelector("[data-select-value]"); // Fixed typo here from 'selecct' to 'select'
+  const filterBtn = document.querySelectorAll("[data-filter-btn]");
+  const filterItems = document.querySelectorAll("[data-filter-item]");
 
+  // Function to toggle elements
+  const elementToggleFunc = function(elem) {
+    elem.classList.toggle("active");
+  };
 
-// custom select variables
-const select = document.querySelector("[data-select]");
-const selectItems = document.querySelectorAll("[data-select-item]");
-const selectValue = document.querySelector("[data-selecct-value]");
-const filterBtn = document.querySelectorAll("[data-filter-btn]");
+  // Apply default filter
+  filterFunc("powerbi"); // Default to PowerBI on load
 
-select.addEventListener("click", function () { elementToggleFunc(this); });
-
-// add event in all select items
-for (let i = 0; i < selectItems.length; i++) {
-  selectItems[i].addEventListener("click", function () {
-
-    let selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    elementToggleFunc(select);
-    filterFunc(selectedValue);
-
+  select.addEventListener("click", function() {
+    elementToggleFunc(this);
   });
-}
 
-// filter variables
-const filterItems = document.querySelectorAll("[data-filter-item]");
+  selectItems.forEach(item => {
+    item.addEventListener("click", function() {
+      let selectedValue = this.innerText.toLowerCase();
+      selectValue.innerText = this.innerText;
+      elementToggleFunc(select);
+      filterFunc(selectedValue);
+    });
+  });
 
-const filterFunc = function (selectedValue) {
+  filterBtn.forEach(btn => {
+    btn.addEventListener("click", function() {
+      filterBtn.forEach(b => b.classList.remove("active"));
+      this.classList.add("active");
+      let selectedValue = this.innerText.toLowerCase();
+      filterFunc(selectedValue);
+    });
+  });
 
-  for (let i = 0; i < filterItems.length; i++) {
-
-    if (selectedValue === "all") {
-      filterItems[i].classList.add("active");
-    } else if (selectedValue === filterItems[i].dataset.category) {
-      filterItems[i].classList.add("active");
-    } else {
-      filterItems[i].classList.remove("active");
-    }
-
+  function filterFunc(selectedValue) {
+    filterItems.forEach(item => {
+      if (item.dataset.category === selectedValue) {
+        item.classList.add("active");
+      } else {
+        item.classList.remove("active");
+      }
+    });
   }
+});
 
-}
 
 // add event in all filter button items for large screen
 let lastClickedBtn = filterBtn[0];
