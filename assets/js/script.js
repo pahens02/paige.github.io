@@ -49,52 +49,46 @@ modalCloseBtn.addEventListener("click", testimonialsModalFunc);
 overlay.addEventListener("click", testimonialsModalFunc);
 
 
-const serviceItems = document.querySelectorAll(".service-item");
+document.addEventListener("DOMContentLoaded", function() {
+  const serviceItems = document.querySelectorAll(".service-item");
+  const modalContainer = document.querySelector("[data-modal-container]");
+  const modalCloseBtn = document.querySelector("[data-modal-close-btn]");
+  const overlay = document.querySelector("[data-overlay]");
+  const modalTitle = document.querySelector("[data-modal-title]");
+  const modalText = document.querySelector("[data-modal-text]");
 
-const skillInfo = {
-  "data-viz": `
-    <p>Relevant Experience:<br />
-    Course Experience: Data Visualization with PowerBI<br />
-    Taught By: Dexter Neeld<br />
-    Work Experience: Web Developer<br />
-    Context: Created web analytics dashboards</p>
-  `,
-  "skill2-key": `
-    <p>Content for skill 2 here...</p>
-  `,
-  "skill3-key": `
-    <p>Content for skill 3 here...</p>
-  `,
-  "skill4-key": `
-    <p>Content for skill 4 here...</p>
-  `
-};
+  const skillInfo = {
+    "data-viz": `
+      <p>Relevant Experience:<br />
+      Course Experience: Data Visualization with PowerBI<br />
+      Taught By: Dexter Neeld<br />
+      Work Experience: Web Developer<br />
+      Context: Created web analytics dashboards</p>
+    `,
+    // Add more keys and content as needed
+  };
 
-// Function to open modal and populate it with the relevant data
-const openServiceModal = function () {
-  const skillKey = this.getAttribute("data-skill-key");
-  modalTitle.innerHTML = this.querySelector(".service-item-title").innerHTML;
-  modalText.innerHTML = skillInfo[skillKey] || "<p>No information available.</p>";
+  serviceItems.forEach(item => {
+    item.addEventListener("click", function () {
+      const skillKey = this.getAttribute("data-skill-key");
+      modalTitle.innerHTML = this.querySelector(".service-item-title").innerHTML;
+      modalText.innerHTML = skillInfo[skillKey] || "<p>No information available.</p>";
 
-  // Toggle modal visibility
-  modalContainer.classList.toggle("active");
-  overlay.classList.toggle("active");
-};
+      modalContainer.classList.add("active");
+      overlay.classList.add("active");
+    });
+  });
 
-// Add click event listener to each service item
-serviceItems.forEach(item => {
-  item.addEventListener("click", openServiceModal);
+  modalCloseBtn.addEventListener("click", function() {
+    modalContainer.classList.remove("active");
+    overlay.classList.remove("active");
+  });
+  overlay.addEventListener("click", function() {
+    modalContainer.classList.remove("active");
+    overlay.classList.remove("active");
+  });
 });
 
-// Improve modal close functionality
-modalCloseBtn.addEventListener("click", function() {
-  modalContainer.classList.remove("active");
-  overlay.classList.remove("active");
-});
-overlay.addEventListener("click", function() {
-  modalContainer.classList.remove("active");
-  overlay.classList.remove("active");
-});
 
 
 
