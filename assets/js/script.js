@@ -113,8 +113,8 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener("DOMContentLoaded", function() {
   const select = document.querySelector("[data-select]");
   const selectItems = document.querySelectorAll("[data-select-item]");
-  const selectValue = document.querySelector("[data-select-value]");
-  const filterBtn = document.querySelectorAll("[data-filter-btn]");
+  const selectValue = document.querySelector("[data-select-value]"); // Ensure this is correctly spelled
+  const filterBtn = document.querySelectorAll("[data-filter-btn]"); // Ensure this is defined before use
   const filterItems = document.querySelectorAll("[data-filter-item]");
 
   // Function to toggle elements' active state
@@ -122,9 +122,9 @@ document.addEventListener("DOMContentLoaded", function() {
     elem.classList.toggle("active");
   };
 
-  // Apply default filter to show only 'powerbi' items
-  filterFunc("powerbi"); // This will set 'powerbi' items as visible initially
-  updateActiveButton("powerbi"); // This will highlight the 'PowerBI' button as active
+  // Initial setup for default filtering
+  filterFunc("powerbi"); // Default to PowerBI on load
+  updateActiveButton("powerbi"); // Set 'PowerBI' button as active initially
 
   select.addEventListener("click", function() {
     elementToggleFunc(this);
@@ -133,41 +133,30 @@ document.addEventListener("DOMContentLoaded", function() {
   selectItems.forEach(item => {
     item.addEventListener("click", function() {
       let selectedValue = this.innerText.toLowerCase();
-      selectValue.innerText = this.innerText; // Updates the displayed value in the select box
-      elementToggleFunc(select); // Close the select dropdown
-      filterFunc(selectedValue); // Apply the selected filter
-      updateActiveButton(selectedValue); // Update button active states
+      selectValue.innerText = this.innerText;
+      elementToggleFunc(select);
+      filterFunc(selectedValue);
+      updateActiveButton(selectedValue);
     });
   });
 
   filterBtn.forEach(btn => {
     btn.addEventListener("click", function() {
       let selectedValue = this.innerText.toLowerCase();
-      filterBtn.forEach(b => b.classList.remove("active")); // Remove active class from all buttons
-      this.classList.add("active"); // Add active class to the clicked button
-      filterFunc(selectedValue); // Apply the filter based on the clicked button
+      updateActiveButton(selectedValue); // Move active update before filterFunc for clarity
+      filterFunc(selectedValue);
     });
   });
 
-  // Function to update active state of buttons based on selected value
   function updateActiveButton(activeValue) {
     filterBtn.forEach(button => {
-      if (button.innerText.toLowerCase() === activeValue) {
-        button.classList.add("active");
-      } else {
-        button.classList.remove("active");
-      }
+      button.classList.toggle("active", button.innerText.toLowerCase() === activeValue);
     });
   }
 
-  // Function to control the visibility of items based on category
   function filterFunc(selectedValue) {
     filterItems.forEach(item => {
-      if (item.dataset.category === selectedValue) {
-        item.classList.add("active");
-      } else {
-        item.classList.remove("active");
-      }
+      item.classList.toggle("active", item.dataset.category === selectedValue);
     });
   }
 });
