@@ -48,7 +48,6 @@ for (let i = 0; i < testimonialsItem.length; i++) {
 modalCloseBtn.addEventListener("click", testimonialsModalFunc);
 overlay.addEventListener("click", testimonialsModalFunc);
 
-
 document.addEventListener("DOMContentLoaded", function() {
   const serviceItems = document.querySelectorAll(".service-item");
   const modalContainer = document.querySelector("[data-modal-container]");
@@ -109,59 +108,44 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+// custom select variables
+const select = document.querySelector("[data-select]");
+const selectItems = document.querySelectorAll("[data-select-item]");
+const selectValue = document.querySelector("[data-selecct-value]");
+const filterBtn = document.querySelectorAll("[data-filter-btn]");
 
-document.addEventListener("DOMContentLoaded", function() {
-  const select = document.querySelector("[data-select]");
-  const selectItems = document.querySelectorAll("[data-select-item]");
-  const selectValue = document.querySelector("[data-select-value]"); // Ensure this is correctly spelled
-  const filterBtn = document.querySelectorAll("[data-filter-btn]"); // Ensure this is defined before use
-  const filterItems = document.querySelectorAll("[data-filter-item]");
+select.addEventListener("click", function () { elementToggleFunc(this); });
 
-  // Function to toggle elements' active state
-  const elementToggleFunc = function(elem) {
-    elem.classList.toggle("active");
-  };
+// add event in all select items
+for (let i = 0; i < selectItems.length; i++) {
+  selectItems[i].addEventListener("click", function () {
 
-  // Initial setup for default filtering
-  filterFunc("powerbi"); // Default to PowerBI on load
-  updateActiveButton("powerbi"); // Set 'PowerBI' button as active initially
+    let selectedValue = this.innerText.toLowerCase();
+    selectValue.innerText = this.innerText;
+    elementToggleFunc(select);
+    filterFunc(selectedValue);
 
-  select.addEventListener("click", function() {
-    elementToggleFunc(this);
   });
+}
 
-  selectItems.forEach(item => {
-    item.addEventListener("click", function() {
-      let selectedValue = this.innerText.toLowerCase();
-      selectValue.innerText = this.innerText;
-      elementToggleFunc(select);
-      filterFunc(selectedValue);
-      updateActiveButton(selectedValue);
-    });
-  });
+// filter variables
+const filterItems = document.querySelectorAll("[data-filter-item]");
 
-  filterBtn.forEach(btn => {
-    btn.addEventListener("click", function() {
-      let selectedValue = this.innerText.toLowerCase();
-      updateActiveButton(selectedValue); // Move active update before filterFunc for clarity
-      filterFunc(selectedValue);
-    });
-  });
+const filterFunc = function (selectedValue) {
 
-  function updateActiveButton(activeValue) {
-    filterBtn.forEach(button => {
-      button.classList.toggle("active", button.innerText.toLowerCase() === activeValue);
-    });
+  for (let i = 0; i < filterItems.length; i++) {
+
+    if (selectedValue === "all") {
+      filterItems[i].classList.add("active");
+    } else if (selectedValue === filterItems[i].dataset.category) {
+      filterItems[i].classList.add("active");
+    } else {
+      filterItems[i].classList.remove("active");
+    }
+
   }
 
-  function filterFunc(selectedValue) {
-    filterItems.forEach(item => {
-      item.classList.toggle("active", item.dataset.category === selectedValue);
-    });
-  }
-});
-
-
+}
 
 // add event in all filter button items for large screen
 let lastClickedBtn = filterBtn[0];
