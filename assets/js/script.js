@@ -110,44 +110,53 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-// custom select variables
-const select = document.querySelector("[data-select]");
-const selectItems = document.querySelectorAll("[data-select-item]");
-const selectValue = document.querySelector("[data-selecct-value]");
-const filterBtn = document.querySelectorAll("[data-filter-btn]");
+document.addEventListener("DOMContentLoaded", function() {
+  const select = document.querySelector("[data-select]");
+  const selectItems = document.querySelectorAll("[data-select-item]");
+  const selectValue = document.querySelector("[data-select-value]"); // Fixed typo here from 'selecct' to 'select'
+  const filterBtn = document.querySelectorAll("[data-filter-btn]");
+  const filterItems = document.querySelectorAll("[data-filter-item]");
 
-select.addEventListener("click", function () { elementToggleFunc(this); });
+  // Function to toggle elements
+  const elementToggleFunc = function(elem) {
+    elem.classList.toggle("active");
+  };
 
-// add event in all select items
-for (let i = 0; i < selectItems.length; i++) {
-  selectItems[i].addEventListener("click", function () {
+  // Apply default filter
+  filterFunc("powerbi"); // Default to PowerBI on load
 
-    let selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    elementToggleFunc(select);
-    filterFunc(selectedValue);
-
+  select.addEventListener("click", function() {
+    elementToggleFunc(this);
   });
-}
 
-// filter variables
-const filterItems = document.querySelectorAll("[data-filter-item]");
+  selectItems.forEach(item => {
+    item.addEventListener("click", function() {
+      let selectedValue = this.innerText.toLowerCase();
+      selectValue.innerText = this.innerText;
+      elementToggleFunc(select);
+      filterFunc(selectedValue);
+    });
+  });
 
-const filterFunc = function (selectedValue) {
+  filterBtn.forEach(btn => {
+    btn.addEventListener("click", function() {
+      filterBtn.forEach(b => b.classList.remove("active"));
+      this.classList.add("active");
+      let selectedValue = this.innerText.toLowerCase();
+      filterFunc(selectedValue);
+    });
+  });
 
-  for (let i = 0; i < filterItems.length; i++) {
-
-    if (selectedValue === "all") {
-      filterItems[i].classList.add("active");
-    } else if (selectedValue === filterItems[i].dataset.category) {
-      filterItems[i].classList.add("active");
-    } else {
-      filterItems[i].classList.remove("active");
-    }
-
+  function filterFunc(selectedValue) {
+    filterItems.forEach(item => {
+      if (item.dataset.category === selectedValue) {
+        item.classList.add("active");
+      } else {
+        item.classList.remove("active");
+      }
+    });
   }
-
-}
+});
 
 
 // add event in all filter button items for large screen
